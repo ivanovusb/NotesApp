@@ -3,6 +3,7 @@ package com.example.notesapp.domain;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class InMemoryNotesRepository implements NotesRepository{
@@ -17,6 +18,7 @@ public class InMemoryNotesRepository implements NotesRepository{
         }
         return INSTANCE;
     }
+
 
     private InMemoryNotesRepository(Context context) {
         this.context = context;

@@ -3,6 +3,8 @@ package com.example.notesapp.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class Note implements Parcelable {
     private final String title;
     private final String details;
@@ -30,6 +32,8 @@ public class Note implements Parcelable {
         }
     };
 
+
+
     public String getTitle() {
         return title;
     }
@@ -48,4 +52,5 @@ public class Note implements Parcelable {
         dest.writeString(title);
         dest.writeString(details);
     }
+
 }
