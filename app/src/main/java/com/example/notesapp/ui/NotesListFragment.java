@@ -53,8 +53,11 @@ public class NotesListFragment extends Fragment {
                         getParentFragmentManager()
                                 .setFragmentResult(NOTES_CLICKED_KEY, bundle);
                     } else {
-                        NoteDetailsActivity.show(requireContext(), note);
-
+                        getParentFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, NoteDetailsFragment.newInstance(note))
+                                .addToBackStack("details")
+                                .commit();
                     }
                 }
             });
