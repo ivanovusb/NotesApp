@@ -18,6 +18,7 @@ import com.example.notesapp.R;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -37,9 +38,15 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        FloatingActionButton fab = view.findViewById(R.id.fab_add);
+
         List<Note> notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
 
         LinearLayout container = view.findViewById(R.id.container);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            fab.setCustomSize(FloatingActionButton.SIZE_MINI);
+        }
 
         for (Note note : notes) {
             View itemView = getLayoutInflater().inflate(R.layout.item_note, container, false);

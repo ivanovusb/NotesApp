@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.notesapp.R;
 
-public class StartScreen extends Fragment {
+public class StartScreenFragment extends Fragment {
 
-    public StartScreen() {
+    public StartScreenFragment() {
         super(R.layout.fragment_start_screen);
     }
 

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentResultListener;
 
 import com.example.notesapp.R;
 import com.example.notesapp.domain.Note;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class NoteDetailsFragment extends Fragment {
 

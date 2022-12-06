@@ -3,8 +3,10 @@ package com.example.notesapp.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.notesapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         if (savedInstanceState != null) {
             getSupportFragmentManager()
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, new StartScreen())
+                    .add(R.id.fragment_container, new StartScreenFragment())
                     .commit();
 
             Thread thread = new Thread(() -> {
