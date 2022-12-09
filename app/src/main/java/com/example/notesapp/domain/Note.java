@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class Note implements Parcelable {
-    private final String title;
-    private final String details;
+    private String title;
+    private String details;
 
 
     public Note(String title, String details) {
@@ -18,6 +18,14 @@ public class Note implements Parcelable {
     protected Note(Parcel in) {
         title = in.readString();
         details = in.readString();
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {

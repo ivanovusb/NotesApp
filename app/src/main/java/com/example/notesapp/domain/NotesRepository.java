@@ -1,5 +1,7 @@
 package com.example.notesapp.domain;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 public interface NotesRepository {

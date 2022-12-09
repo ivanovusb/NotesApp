@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.example.notesapp.R;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -26,6 +23,7 @@ public class NotesListFragment extends Fragment {
 
     public static final String NOTES_CLICKED_KEY = "NOTES_CLICKED_KEY";
     public static final String SELECTED_NOTE = "SELECTED_NOTE";
+    private FloatingActionButton fabAdd;
 
 
     @Nullable
@@ -38,15 +36,23 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab_add);
+        fabAdd = view.findViewById(R.id.fab_add);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new NoteCreationFragment())
+                        .addToBackStack("")
+                        .commit();
+            }
+        });
+
 
         List<Note> notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
 
         LinearLayout container = view.findViewById(R.id.container);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            fab.setCustomSize(FloatingActionButton.SIZE_MINI);
-        }
 
         for (Note note : notes) {
             View itemView = getLayoutInflater().inflate(R.layout.item_note, container, false);
