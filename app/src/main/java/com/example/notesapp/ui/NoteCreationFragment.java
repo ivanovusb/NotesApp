@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.example.notesapp.R;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
+import com.example.notesapp.domain.NoteCreateRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -18,6 +19,20 @@ public class NoteCreationFragment extends Fragment {
     private EditText editTextLabel;
     private EditText editTextDetails;
     FloatingActionButton fabCreate;
+    public static boolean INSTANCE = false;
+    private static String title;
+    private static String details;
+
+    public static NoteCreationFragment newInstance() {
+
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("details", details);
+
+        NoteCreationFragment fragment = new NoteCreationFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
 
@@ -25,14 +40,6 @@ public class NoteCreationFragment extends Fragment {
         super(R.layout.fragment_note_creation);
     }
 
-
-    public EditText getEditTextLabel() {
-        return editTextLabel;
-    }
-
-    public EditText getEditTextDetails() {
-        return editTextDetails;
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -43,13 +50,27 @@ public class NoteCreationFragment extends Fragment {
         fabCreate = view.findViewById(R.id.fab_create);
 
 
-        }
-
-
-
-
-
-
-
+        fabCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getEditTextLabel();
+                getEditTextDetails();
+                NoteCreateRepository.getInstance(requireContext()).getAll();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new NotesListFragment())
+                        .commit();
+            }
+        });
+        INSTANCE = true;
     }
+
+    public String getEditTextLabel() {
+        return title = editTextLabel.getText().toString();
+    }
+
+    public String getEditTextDetails() {
+        return details = editTextDetails.getText().toString();
+    }
+}
 

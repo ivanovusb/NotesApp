@@ -10,6 +10,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    static String title;
+    static String details;
+    NoteCreationFragment noteCreationFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,5 +44,6 @@ public class MainActivity extends AppCompatActivity {
             });
             thread.start();
         }
+
     }
 }

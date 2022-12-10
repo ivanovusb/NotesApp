@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.notesapp.R;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
+import com.example.notesapp.domain.NoteCreateRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class NotesListFragment extends Fragment {
     public static final String NOTES_CLICKED_KEY = "NOTES_CLICKED_KEY";
     public static final String SELECTED_NOTE = "SELECTED_NOTE";
     private FloatingActionButton fabAdd;
-
+    List<Note> notes;
+    NoteCreationFragment noteCreationFragment;
 
     @Nullable
     @Override
@@ -42,14 +44,15 @@ public class NotesListFragment extends Fragment {
             public void onClick(View v) {
                 getParentFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new NoteCreationFragment())
+                        .replace(R.id.fragment_container, noteCreationFragment = new NoteCreationFragment())
                         .addToBackStack("")
                         .commit();
             }
         });
 
 
-        List<Note> notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
+        notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
+
 
         LinearLayout container = view.findViewById(R.id.container);
 
