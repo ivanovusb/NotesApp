@@ -3,22 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_info"
-        android:title="@string/action_info"
-        android:icon="@drawable/ic_info_24"
-        app:showAsAction="always"
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_search_24"
         />
 
     <item
-        android:id="@+id/action_share"
-        android:title="@string/action_share"
-        android:icon="@drawable/ic_share_24"
-        app:showAsAction="never"/>
+        android:id="@+id/action_sort"
+        android:title="@string/action_sort"
+        android:icon="@drawable/ic_baseline_sort_by_alpha_24"
+        app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/action_explore"
-        android:title="@string/action_explore"
-        android:icon="@drawable/ic_explore_24"
-        app:showAsAction="withText"/>
+
 
 </menu>

@@ -1,5 +1,6 @@
 package com.example.notesapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -65,6 +66,22 @@ public class NoteDetailsFragment extends Fragment {
                     case R.id.action_delete:
                         Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
                         return true;
+
+                    case R.id.action_info:
+                        Toast.makeText(requireContext(), "info", Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    case R.id.action_share:
+                        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                        Intent intent = Intent.createChooser(sendIntent, "Выбор приложения");
+                        startActivity(intent);
+                        Toast.makeText(requireContext(), "share", Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    case R.id.action_attach:
+                        Toast.makeText(requireContext(), "attach", Toast.LENGTH_SHORT).show();
+                        return true;
+
                 }
                 return false;
             }

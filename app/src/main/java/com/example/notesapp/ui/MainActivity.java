@@ -29,12 +29,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_notes:
-                        Toast.makeText(MainActivity.this, "Notes", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, new NotesListFragment())
+                                .addToBackStack("notes_list")
+                                .commit();
                         drawerLayout.close();
                         return true;
 
                     case R.id.action_settings:
-                        Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, new NotesSettingsFragment())
+                                .addToBackStack("notes_list")
+                                .commit();
                         drawerLayout.close();
                         return true;
 

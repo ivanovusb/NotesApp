@@ -1,5 +1,6 @@
 package com.example.notesapp.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,14 +50,11 @@ public class NotesListFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_explore:
-                        Toast.makeText(requireContext(), "explore", Toast.LENGTH_SHORT).show();
+                    case R.id.action_search:
+                        Toast.makeText(requireContext(), "SEARCH", Toast.LENGTH_SHORT).show();
                         return true;
-                    case R.id.action_info:
-                        Toast.makeText(requireContext(), "info", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.action_share:
-                        Toast.makeText(requireContext(), "share", Toast.LENGTH_SHORT).show();
+                    case R.id.action_sort:
+                        Toast.makeText(requireContext(), "SORT", Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;
