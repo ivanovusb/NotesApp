@@ -16,8 +16,9 @@
         app:layout_constraintBottom_toTopOf="@id/title">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_note_details"
             android:layout_width="match_parent"
+            app:menu="@menu/menu_note_details"
             android:layout_height="wrap_content"
             app:titleTextColor="@color/white"/>
 

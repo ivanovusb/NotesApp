@@ -12,7 +12,6 @@ import java.util.List;
 public class NoteCreateRepository implements NotesRepository{
 
     public static NotesRepository INSTANCE;
-    NoteCreationFragment noteCreationFragment;
 
 
     private Context context;

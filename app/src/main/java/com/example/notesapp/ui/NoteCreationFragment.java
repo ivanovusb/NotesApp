@@ -20,19 +20,7 @@ public class NoteCreationFragment extends Fragment {
     private EditText editTextDetails;
     FloatingActionButton fabCreate;
     public static boolean INSTANCE = false;
-    private static String title;
-    private static String details;
 
-    public static NoteCreationFragment newInstance() {
-
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putString("details", details);
-
-        NoteCreationFragment fragment = new NoteCreationFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
 
 
@@ -53,9 +41,13 @@ public class NoteCreationFragment extends Fragment {
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getEditTextLabel();
-                getEditTextDetails();
-                NoteCreateRepository.getInstance(requireContext()).getAll();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", getEditTextLabel());
+                    bundle.putString("details", getEditTextDetails());
+
+                    getParentFragmentManager()
+                            .setFragmentResult("newNote", bundle);
+
                 getParentFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new NotesListFragment())
@@ -66,11 +58,11 @@ public class NoteCreationFragment extends Fragment {
     }
 
     public String getEditTextLabel() {
-        return title = editTextLabel.getText().toString();
+        return editTextLabel.getText().toString();
     }
 
     public String getEditTextDetails() {
-        return details = editTextDetails.getText().toString();
+        return editTextDetails.getText().toString();
     }
 }
 

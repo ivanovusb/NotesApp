@@ -10,9 +10,11 @@
         android:layout_height="40dp">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_notes_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="Заметки"
+            app:menu="@menu/menu_main"
             app:titleTextColor="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>

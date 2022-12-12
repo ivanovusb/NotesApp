@@ -3,14 +3,19 @@ package com.example.notesapp.ui;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.example.notesapp.R;
 import com.example.notesapp.domain.InMemoryNotesRepository;
@@ -38,6 +43,26 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Toolbar toolbar = view.findViewById(R.id.toolbar_notes_list);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_explore:
+                        Toast.makeText(requireContext(), "explore", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_info:
+                        Toast.makeText(requireContext(), "info", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_share:
+                        Toast.makeText(requireContext(), "share", Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+                return false;
+            }
+        });
+
         fabAdd = view.findViewById(R.id.fab_add);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +76,18 @@ public class NotesListFragment extends Fragment {
         });
 
 
-        notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
+
+            getParentFragmentManager()
+                    .setFragmentResultListener("newNote", getViewLifecycleOwner(), new FragmentResultListener() {
+                        @Override
+                        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                            Note note = new Note(result.getString("title"), result.getString("details"));
+                            notes.add(note);
+                        }
+                    });
+
+
+            notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
 
 
         LinearLayout container = view.findViewById(R.id.container);
