@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,13 @@ public class NoteDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        MainActivity.onBackPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        };
 
         title = view.findViewById(R.id.title);
         details = view.findViewById(R.id.details);
@@ -109,5 +117,7 @@ public class NoteDetailsFragment extends Fragment {
         title.setText(note.getTitle());
         details.setHint(note.getDetails());
     }
+
+
 
 }

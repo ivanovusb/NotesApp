@@ -12,4 +12,9 @@
     <string name="action_sort">Sorting</string>
     <string name="action_attach">Attach</string>
     <string name="user_name">User Name</string>
+    <string name="action_notification">Notification</string>
+    <string name="exit_dialog_title">Выход</string>
+    <string name="exit_dialog_message">Вы действительно хотите выйти ?</string>
+    <string name="positive_answer">Да</string>
+    <string name="negative_answer">Нет</string>
 </resources>
