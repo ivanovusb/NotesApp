@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
                         drawerLayout.close();
                         return true;
+
+                    case R.id.action_notification:
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, new NotificationsFragment())
+                                .addToBackStack("notes_list")
+                                .commit();
+                        drawerLayout.close();
+                        return true;
                 }
                 return false;
             }
