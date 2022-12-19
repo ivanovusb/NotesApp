@@ -13,6 +13,7 @@ import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
 import com.example.notesapp.domain.NoteCreateRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class NoteCreationFragment extends Fragment {
@@ -52,6 +53,8 @@ public class NoteCreationFragment extends Fragment {
                         .beginTransaction()
                         .replace(R.id.fragment_container, new NotesListFragment())
                         .commit();
+
+                Snackbar.make(view, R.string.note_created_snackbar, Snackbar.LENGTH_SHORT).show();
             }
         });
         INSTANCE = true;

@@ -17,4 +17,7 @@
     <string name="exit_dialog_message">Вы действительно хотите выйти ?</string>
     <string name="positive_answer">Да</string>
     <string name="negative_answer">Нет</string>
+    <string name="note_created_snackbar">Заметка создана!</string>
+    <string name="delete_dialog_title">Удаление заметки</string>
+    <string name="delete_dialog_message">Вы действительно хотите удалить заметку ?</string>
 </resources>

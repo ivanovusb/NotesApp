@@ -1,5 +1,6 @@
 package com.example.notesapp.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -72,6 +74,23 @@ public class NoteDetailsFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_delete:
+
+                        new AlertDialog.Builder(requireContext())
+                                .setTitle(getResources().getString(R.string.delete_dialog_title))
+                                .setMessage(getResources().getString(R.string.delete_dialog_message))
+                                .setIcon(R.drawable.ic_error_24)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.positive_answer, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .setNegativeButton(R.string.negative_answer, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .show();
                         Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
                         return true;
 
