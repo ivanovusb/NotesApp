@@ -8,11 +8,13 @@ import java.util.Date;
 public class Note implements Parcelable {
     private String title;
     private String details;
+    private Date createdDate;
 
 
-    public Note(String title, String details) {
+    public Note(String title, String details, Date createdDate) {
         this.title = title;
         this.details = details;
+        this.createdDate = createdDate;
     }
 
     protected Note(Parcel in) {
@@ -61,4 +63,7 @@ public class Note implements Parcelable {
         dest.writeString(details);
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
 }

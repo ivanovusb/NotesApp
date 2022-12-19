@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notesapp.R;
 import com.example.notesapp.domain.InMemoryNotesRepository;
@@ -37,8 +40,6 @@ public class NotesListFragment extends Fragment {
     NoteCreationFragment noteCreationFragment;
 
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +50,29 @@ public class NotesListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView notesList = view.findViewById(R.id.notes_list);
+        NotesAdapter adapter = new NotesAdapter();
+        adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
+            @Override
+            public void onNoteClicked(Note note) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(SELECTED_NOTE, note);
+                    getParentFragmentManager()
+                            .setFragmentResult(NOTES_CLICKED_KEY, bundle);
+                } else {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, NoteDetailsFragment.newInstance(note))
+                            .addToBackStack("details")
+                            .commit();
+                }
+            }
+        });
+
+
+        notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         Toolbar toolbar = view.findViewById(R.id.toolbar_notes_list);
 
@@ -80,55 +104,13 @@ public class NotesListFragment extends Fragment {
         });
 
 
+        notesList.setAdapter(adapter);
+        notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
 
+        adapter.setData(notes);
 
+        adapter.notifyDataSetChanged();
 
-            getParentFragmentManager()
-                    .setFragmentResultListener("newNote", getViewLifecycleOwner(), new FragmentResultListener() {
-                        @Override
-                        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                            Note note = new Note(result.getString("title"), result.getString("details"));
-                            notes.add(note);
-                        }
-                    });
-
-
-            notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
-
-
-        LinearLayout container = view.findViewById(R.id.container);
-
-
-        for (Note note : notes) {
-            View itemView = getLayoutInflater().inflate(R.layout.item_note, container, false);
-
-            itemView.findViewById(R.id.root).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable(SELECTED_NOTE, note);
-                        getParentFragmentManager()
-                                .setFragmentResult(NOTES_CLICKED_KEY, bundle);
-                    } else {
-                        getParentFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, NoteDetailsFragment.newInstance(note))
-                                .addToBackStack("details")
-                                .commit();
-                    }
-                }
-            });
-
-            TextView title = itemView.findViewById(R.id.title);
-            title.setText(note.getTitle());
-            TextView details = itemView.findViewById(R.id.details);
-            details.setText(note.getDetails());
-
-            container.addView(itemView);
-
-
-        }
 
         MainActivity.onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
@@ -137,7 +119,6 @@ public class NotesListFragment extends Fragment {
         };
 
     }
-
 
 
 }
