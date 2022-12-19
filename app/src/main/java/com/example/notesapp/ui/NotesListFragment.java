@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,11 +36,15 @@ public class NotesListFragment extends Fragment {
     List<Note> notes;
     NoteCreationFragment noteCreationFragment;
 
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -72,6 +78,8 @@ public class NotesListFragment extends Fragment {
                         .commit();
             }
         });
+
+
 
 
 
@@ -122,5 +130,14 @@ public class NotesListFragment extends Fragment {
 
         }
 
+        MainActivity.onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+            }
+        };
+
     }
+
+
+
 }

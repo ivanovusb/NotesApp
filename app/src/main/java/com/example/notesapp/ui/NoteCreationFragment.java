@@ -64,5 +64,7 @@ public class NoteCreationFragment extends Fragment {
     public String getEditTextDetails() {
         return editTextDetails.getText().toString();
     }
+
+
 }
 
