@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/ic_image_note.xml" value="0.177" />
         <entry key="app/src/main/res/font/dancing_scripts.xml" value="0.3277777777777778" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.165" />
+        <entry key="app/src/main/res/layout-land/fragment_note_creation.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_note_details.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/dialog_close.xml" value="0.30885416666666665" />

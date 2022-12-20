@@ -71,8 +71,11 @@ public class NotesListFragment extends Fragment {
             }
         });
 
-
-        notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            notesList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        }else {
+            notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        }
 
         Toolbar toolbar = view.findViewById(R.id.toolbar_notes_list);
 
@@ -91,17 +94,34 @@ public class NotesListFragment extends Fragment {
             }
         });
 
+
+
         fabAdd = view.findViewById(R.id.fab_add);
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, noteCreationFragment = new NoteCreationFragment())
-                        .addToBackStack("")
-                        .commit();
-            }
-        });
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            fabAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_details_container, noteCreationFragment = new NoteCreationFragment())
+                            .addToBackStack("")
+                            .commit();
+                }
+            });
+        } else {
+            fabAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, noteCreationFragment = new NoteCreationFragment())
+                            .addToBackStack("")
+                            .commit();
+                }
+            });
+        }
+
 
 
         notesList.setAdapter(adapter);
