@@ -9,9 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.notesapp.R;
+import com.example.notesapp.domain.Callback;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
-import com.example.notesapp.domain.NoteCreateRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,9 +20,13 @@ public class NoteCreationFragment extends Fragment {
     private EditText editTextLabel;
     private EditText editTextDetails;
     FloatingActionButton fabCreate;
-    public static boolean INSTANCE = false;
 
+    public static final String ADD_KEY_RESULT = "NoteCreationFragment_ADD_KEY_RESULT";
+    public static final String ARG_NOTE = "ARG_NOTE";
 
+    public static NoteCreationFragment addInstance() {
+        return new NoteCreationFragment();
+    }
 
 
     public NoteCreationFragment() {
@@ -42,30 +46,34 @@ public class NoteCreationFragment extends Fragment {
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title", getEditTextLabel());
-                    bundle.putString("details", getEditTextDetails());
+                fabCreate.setEnabled(false);
+                InMemoryNotesRepository.getInstance(requireContext()).addNote(editTextLabel.getText().toString(), editTextDetails.getText().toString(), new Callback<Note>() {
+                    @Override
+                    public void onSuccess(Note data) {
 
-                    getParentFragmentManager()
-                            .setFragmentResult("newNote", bundle);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(ARG_NOTE, data);
 
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new NotesListFragment())
-                        .commit();
+                        getParentFragmentManager()
+                                .setFragmentResult(ADD_KEY_RESULT, bundle);
+
+
+                        fabCreate.setEnabled(true);
+
+                        getParentFragmentManager()
+                                .popBackStack();
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+                        fabCreate.setEnabled(true);
+                    }
+                });
+
 
                 Snackbar.make(view, R.string.note_created_snackbar, Snackbar.LENGTH_SHORT).show();
             }
         });
-        INSTANCE = true;
-    }
-
-    public String getEditTextLabel() {
-        return editTextLabel.getText().toString();
-    }
-
-    public String getEditTextDetails() {
-        return editTextDetails.getText().toString();
     }
 
 

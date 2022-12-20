@@ -1,21 +1,23 @@
 package com.example.notesapp.domain;
 
 import android.content.Context;
-
-import androidx.fragment.app.Fragment;
-
-import com.example.notesapp.ui.MainActivity;
-import com.example.notesapp.ui.NoteCreationFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-public class InMemoryNotesRepository implements NotesRepository{
+public class InMemoryNotesRepository implements NotesRepository {
     public static NotesRepository INSTANCE;
-    NoteCreationFragment noteCreationFragment;
 
+    private List<Note> data = new ArrayList<>();
+
+    private Executor executor = Executors.newSingleThreadExecutor();
+
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     private Context context;
 
@@ -29,25 +31,107 @@ public class InMemoryNotesRepository implements NotesRepository{
 
     private InMemoryNotesRepository(Context context) {
         this.context = context;
+
     }
 
 
     @Override
-    public List<Note> getAll() {
-        ArrayList<Note> result = new ArrayList<>();
+    public void getAll(Callback<List<Note>> callback) {
 
-        result.add(new Note("Заметка 1", "детали...", new Date()));
-        result.add(new Note("Заметка 2", "детали...", new Date()));
-
-
-        return result;
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(2000L);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+        callback.onSuccess(data);
+//                    }
+//                });
+//            }
+//        });
     }
-
-
 
     @Override
-    public void add(Note note) {
+    public void addNote(String title, String details, Callback<Note> callback) {
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000L);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
+        Note note = new Note(title, details, new Date());
+
+        data.add(note);
+
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+        callback.onSuccess(note);
+
+//                    }
+//                });
+//            }
+//        });
     }
+
+    @Override
+    public void deleteNote(Note note, Callback<Void> callback) {
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000L);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+        data.remove(note);
+
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+        callback.onSuccess(null);
+//                    }
+//                });
+//            }
+//        });
+    }
+
+    @Override
+    public void updateNote(Note note, String title, String details, Callback<Note> callback) {
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000L);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+        Note newNote = new Note(title, details, note.getCreatedDate());
+
+        int index = data.indexOf(note);
+
+        data.set(index, newNote);
+
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+        callback.onSuccess(newNote);
+//                    }
+//                });
+//            }
+//        });
+    }
+
 
 }

@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notesapp.R;
@@ -21,13 +23,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy / HH:mm", Locale.getDefault());
 
-    interface OnNoteClicked {
-        void onNoteClicked(Note note);
-    }
+    private Fragment fragment;
 
     private OnNoteClicked noteClicked;
 
     private List<Note> data = new ArrayList<>();
+
+    public NotesAdapter(Fragment fragment) {
+        this.fragment = fragment;
+    }
 
     public void setData(Collection<Note> notes) {
         data.addAll(notes);
@@ -37,6 +41,20 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.noteClicked = noteClicked;
     }
 
+    public void removeNote(Note selectedNote) {
+        data.remove(selectedNote);
+    }
+
+    interface OnNoteClicked {
+        void onNoteClicked(Note note);
+
+        void onNoteLongClicked(Note note, int position);
+    }
+
+    public int addNote(Note note) {
+        data.add(note);
+        return data.size() - 1;
+    }
 
     @NonNull
     @Override
@@ -75,14 +93,32 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             details = itemView.findViewById(R.id.details);
             date = itemView.findViewById(R.id.date);
 
-            itemView.findViewById(R.id.root).setOnClickListener(new View.OnClickListener() {
+            CardView cardView = itemView.findViewById(R.id.root);
+
+            fragment.registerForContextMenu(cardView);
+
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int clickedPosition = getAdapterPosition();
                     if (noteClicked != null) {
                         noteClicked.onNoteClicked(data.get(clickedPosition));
-
                     }
+                }
+            });
+
+            cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    cardView.showContextMenu();
+
+                    if (noteClicked != null) {
+                        int clickedPosition = getAdapterPosition();
+
+                        noteClicked.onNoteLongClicked(data.get(clickedPosition), clickedPosition);
+                    }
+
+                    return true;
                 }
             });
         }

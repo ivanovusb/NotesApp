@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title">
+        app:layout_constraintBottom_toTopOf="@id/note_edit_label">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_note_details"
@@ -24,25 +24,35 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/title"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/note_edit_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="Название"
         app:layout_constraintTop_toBottomOf="@id/appbar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/details"
-        tools:text="Заметка"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"/>
+        app:layout_constraintBottom_toTopOf="@id/note_edit_text" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/details"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/note_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Текст"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/note_edit_label"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:hint="Детали" />
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975"
+        android:src="@drawable/ic_edit_24"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

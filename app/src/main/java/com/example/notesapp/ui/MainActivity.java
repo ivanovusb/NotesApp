@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                             .beginTransaction()
                             .replace(R.id.fragment_container, new NotesListFragment())
                             .commit();
-
                 }
             });
             thread.start();

@@ -20,4 +20,5 @@
     <string name="note_created_snackbar">Заметка создана!</string>
     <string name="delete_dialog_title">Удаление заметки</string>
     <string name="delete_dialog_message">Вы действительно хотите удалить заметку ?</string>
+    <string name="action_delete_note_context">Delete</string>
 </resources>

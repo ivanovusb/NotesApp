@@ -24,21 +24,26 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
 import com.example.notesapp.R;
+import com.example.notesapp.domain.Callback;
+import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class NoteDetailsFragment extends Fragment {
 
-    private TextView title;
+    private EditText title;
     private EditText details;
+    private FloatingActionButton fabEdit;
+    private Note noteToEdit;
 
     public static final String ARG_NOTE = "ARG_NOTE";
+    public static final String EDIT_KEY_RESULT = "NoteDetailsFragment_EDIT_KEY_RESULT";
 
-    public static NoteDetailsFragment newInstance(Note note) {
+    public static NoteDetailsFragment editInstance(Note note) {
 
         Bundle args = new Bundle();
         args.putParcelable(ARG_NOTE, note);
-        
+
         NoteDetailsFragment fragment = new NoteDetailsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -52,11 +57,18 @@ public class NoteDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        noteToEdit = null;
+
+        if (getArguments() != null && getArguments().containsKey(ARG_NOTE)) {
+            noteToEdit = getArguments().getParcelable(ARG_NOTE);
+        }
 
         MainActivity.onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
@@ -65,8 +77,43 @@ public class NoteDetailsFragment extends Fragment {
             }
         };
 
-        title = view.findViewById(R.id.title);
-        details = view.findViewById(R.id.details);
+        title = view.findViewById(R.id.note_edit_label);
+        details = view.findViewById(R.id.note_edit_text);
+        fabEdit = view.findViewById(R.id.fab_edit);
+
+        if (noteToEdit != null) {
+            title.setText(noteToEdit.getTitle());
+            details.setText(noteToEdit.getDetails());
+        }
+
+
+        fabEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabEdit.setEnabled(false);
+                InMemoryNotesRepository.getInstance(requireContext()).updateNote(noteToEdit, title.getText().toString(), details.getText().toString(), new Callback<Note>() {
+                    @Override
+                    public void onSuccess(Note data) {
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(ARG_NOTE, data);
+
+                        getParentFragmentManager()
+                                .setFragmentResult(EDIT_KEY_RESULT, bundle);
+
+                        fabEdit.setEnabled(true);
+                        getParentFragmentManager()
+                                .popBackStack();
+                    }
+
+                    @Override
+                    public void onError(Throwable exception) {
+                        fabEdit.setEnabled(true);
+
+                    }
+                });
+            }
+        });
 
         Toolbar toolbar = view.findViewById(R.id.toolbar_note_details);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -114,29 +161,7 @@ public class NoteDetailsFragment extends Fragment {
             }
         });
 
-
-        getParentFragmentManager()
-                .setFragmentResultListener(NotesListFragment.NOTES_CLICKED_KEY, getViewLifecycleOwner(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        Note note = result.getParcelable(NotesListFragment.SELECTED_NOTE);
-
-                        showNote(note);
-                    }
-                });
-
-        if (getArguments() != null && getArguments().containsKey(ARG_NOTE)) {
-            Note note = getArguments().getParcelable(ARG_NOTE);
-
-            showNote(note);
-        }
     }
-
-    private void showNote(Note note) {
-        title.setText(note.getTitle());
-        details.setHint(note.getDetails());
-    }
-
 
 
 }
