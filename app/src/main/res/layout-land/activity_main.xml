@@ -7,39 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
-        android:name="com.example.notesapp.ui.NotesListFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/fragment_details_container"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:context=".ui.MainActivity" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_details_container"
-        android:name="com.example.notesapp.ui.NoteDetailsFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@id/fragment_container"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ui.MainActivity" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
@@ -47,7 +19,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/menu_navigation_drawer"
-        app:headerLayout="@layout/item_nav_header"
-        android:visibility="gone"/>
+        app:headerLayout="@layout/item_nav_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

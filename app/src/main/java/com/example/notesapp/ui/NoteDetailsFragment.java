@@ -73,7 +73,6 @@ public class NoteDetailsFragment extends Fragment {
         MainActivity.onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
-
             }
         };
 
@@ -121,7 +120,6 @@ public class NoteDetailsFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_delete:
-
                         new AlertDialog.Builder(requireContext())
                                 .setTitle(getResources().getString(R.string.delete_dialog_title))
                                 .setMessage(getResources().getString(R.string.delete_dialog_message))
@@ -155,7 +153,6 @@ public class NoteDetailsFragment extends Fragment {
                     case R.id.action_attach:
                         Toast.makeText(requireContext(), "attach", Toast.LENGTH_SHORT).show();
                         return true;
-
                 }
                 return false;
             }

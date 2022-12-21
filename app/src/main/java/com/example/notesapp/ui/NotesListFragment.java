@@ -62,18 +62,11 @@ public class NotesListFragment extends Fragment {
         adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
             @Override
             public void onNoteClicked(Note note) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(SELECTED_NOTE, note);
-                    getParentFragmentManager()
-                            .setFragmentResult(NOTES_CLICKED_KEY, bundle);
-                } else {
                     getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, NoteDetailsFragment.editInstance(note))
                             .addToBackStack("details")
                             .commit();
-                }
             }
 
             @Override
@@ -84,11 +77,9 @@ public class NotesListFragment extends Fragment {
         });
 
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            notesList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        } else {
-            notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        }
+
+        notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+
 
         Toolbar toolbar = view.findViewById(R.id.toolbar_notes_list);
 
@@ -112,19 +103,11 @@ public class NotesListFragment extends Fragment {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_details_container, new NoteCreationFragment())
-                            .addToBackStack("list")
-                            .commit();
-                } else {
                     getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new NoteCreationFragment())
                             .addToBackStack("list")
                             .commit();
-                }
             }
         });
 
