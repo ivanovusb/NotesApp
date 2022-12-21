@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_display_mode"
+        android:title="Display mode"
+        android:icon="@drawable/ic_notes_display_view_block_24"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_search"
         android:title="@string/action_search"
         app:showAsAction="ifRoom"

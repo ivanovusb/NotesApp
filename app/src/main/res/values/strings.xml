@@ -21,4 +21,5 @@
     <string name="delete_dialog_title">Удаление заметки</string>
     <string name="delete_dialog_message">Вы действительно хотите удалить заметку ?</string>
     <string name="action_delete_note_context">Delete</string>
+    <string name="note_delete_snackbar">Заметка удалена !</string>
 </resources>

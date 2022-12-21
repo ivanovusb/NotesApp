@@ -1,5 +1,6 @@
 package com.example.notesapp.ui;
 
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
@@ -27,6 +29,7 @@ import com.example.notesapp.domain.Callback;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -34,10 +37,13 @@ public class NotesListFragment extends Fragment {
 
     public static final String NOTES_CLICKED_KEY = "NOTES_CLICKED_KEY";
     public static final String SELECTED_NOTE = "SELECTED_NOTE";
+    public static final String DISPLAY_MODE = "DISPLAY_MODE";
     private int index;
+    Bundle bundle;
     private Note selectedNote;
     private int selectedPosition;
     private NotesAdapter adapter;
+    private int displayMode = 0;
 
 
     @Nullable
@@ -77,16 +83,44 @@ public class NotesListFragment extends Fragment {
         });
 
 
-
-        notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        if (bundle != null) {
+            displayMode = bundle.getInt(DISPLAY_MODE);
+            switch (displayMode) {
+                case 1:
+                    notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+                    break;
+                case 0:
+                    notesList.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    break;
+            }
+        } else {
+            notesList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        }
 
 
         Toolbar toolbar = view.findViewById(R.id.toolbar_notes_list);
+
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.action_display_mode:
+                        switch (displayMode) {
+                            case 0:
+                                notesList.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+                                item.setIcon(R.drawable.ic_notes_display_view_list_24);
+                                displayMode = 1;
+                                return true;
+
+                            case 1:
+                                notesList.setLayoutManager(new LinearLayoutManager(requireContext()));
+                                item.setIcon(R.drawable.ic_notes_display_view_block_24);
+                                displayMode = 0;
+                                return true;
+                        }
+
+                        return true;
                     case R.id.action_search:
                         Toast.makeText(requireContext(), "SEARCH", Toast.LENGTH_SHORT).show();
                         return true;
@@ -103,6 +137,8 @@ public class NotesListFragment extends Fragment {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bundle = new Bundle();
+                bundle.putInt(DISPLAY_MODE, displayMode);
                     getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new NoteCreationFragment())
@@ -169,8 +205,25 @@ public class NotesListFragment extends Fragment {
                 InMemoryNotesRepository.getInstance(requireContext()).deleteNote(selectedNote, new Callback<Void>() {
                     @Override
                     public void onSuccess(Void data) {
-                        adapter.removeNote(selectedNote);
-                        adapter.notifyItemRemoved(selectedPosition);
+                        new AlertDialog.Builder(requireContext())
+                                .setTitle(getResources().getString(R.string.delete_dialog_title))
+                                .setMessage(getResources().getString(R.string.delete_dialog_message))
+                                .setIcon(R.drawable.ic_error_24)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.positive_answer, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        adapter.removeNote(selectedNote);
+                                        adapter.notifyItemRemoved(selectedPosition);
+                                    }
+                                })
+                                .setNegativeButton(R.string.negative_answer, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .show();
+                        Snackbar.make(requireView(), R.string.note_delete_snackbar, Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override

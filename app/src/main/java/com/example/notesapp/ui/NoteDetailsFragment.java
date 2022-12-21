@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notesapp.R;
 import com.example.notesapp.domain.Callback;
@@ -65,6 +66,7 @@ public class NoteDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         noteToEdit = null;
+
 
         if (getArguments() != null && getArguments().containsKey(ARG_NOTE)) {
             noteToEdit = getArguments().getParcelable(ARG_NOTE);
@@ -119,26 +121,6 @@ public class NoteDetailsFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_delete:
-                        new AlertDialog.Builder(requireContext())
-                                .setTitle(getResources().getString(R.string.delete_dialog_title))
-                                .setMessage(getResources().getString(R.string.delete_dialog_message))
-                                .setIcon(R.drawable.ic_error_24)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.positive_answer, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setNegativeButton(R.string.negative_answer, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .show();
-                        Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
-                        return true;
-
                     case R.id.action_info:
                         Toast.makeText(requireContext(), "info", Toast.LENGTH_SHORT).show();
                         return true;
