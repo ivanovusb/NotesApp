@@ -1,8 +1,17 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
+    signingConfigs {
+        notes {
+            storeFile file('/Users/anivanov/AndroidStudioProjects/NotesApp/app/notes.keystore')
+            storePassword 'Rfhfce2716'
+            keyAlias 'notes'
+            keyPassword 'Rfhfce2716'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -13,12 +22,18 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.notes
+
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.notes
         }
     }
     compileOptions {
@@ -28,7 +43,8 @@ android {
 }
 
 dependencies {
-
+implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
