@@ -25,7 +25,9 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notesapp.R;
+import com.example.notesapp.di.Dependencies;
 import com.example.notesapp.domain.Callback;
+import com.example.notesapp.domain.FireStoreNotesRepository;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
 import com.example.notesapp.domain.SharedPrefNotesRepository;
@@ -93,7 +95,7 @@ public class NoteDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fabEdit.setEnabled(false);
-                SharedPrefNotesRepository.getInstance(requireContext()).updateNote(noteToEdit, title.getText().toString(), details.getText().toString(), new Callback<Note>() {
+                Dependencies.getNotesRepository().updateNote(noteToEdit, title.getText().toString(), details.getText().toString(), new Callback<Note>() {
                     @Override
                     public void onSuccess(Note data) {
 

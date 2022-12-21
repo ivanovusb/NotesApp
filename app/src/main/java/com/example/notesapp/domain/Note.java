@@ -12,6 +12,9 @@ public class Note implements Parcelable {
     private String details;
     private Date createdDate;
 
+    public String getId() {
+        return id;
+    }
 
     public Note(String id, String title, String details, Date createdDate) {
         this.id = id;

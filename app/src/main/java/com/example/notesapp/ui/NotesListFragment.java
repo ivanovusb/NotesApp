@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notesapp.R;
+import com.example.notesapp.di.Dependencies;
 import com.example.notesapp.domain.Callback;
+import com.example.notesapp.domain.FireStoreNotesRepository;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
 import com.example.notesapp.domain.SharedPrefNotesRepository;
@@ -166,7 +168,7 @@ public class NotesListFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.progress_load_notes);
         progressBar.setVisibility(View.VISIBLE);
 
-        SharedPrefNotesRepository.getInstance(requireContext()).getAll(new Callback<List<Note>>() {
+        Dependencies.getNotesRepository().getAll(new Callback<List<Note>>() {
             @Override
             public void onSuccess(List<Note> data) {
                 adapter.setData(data);
@@ -203,7 +205,7 @@ public class NotesListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_delete_note_context:
 
-                SharedPrefNotesRepository.getInstance(requireContext()).deleteNote(selectedNote, new Callback<Void>() {
+                Dependencies.getNotesRepository().deleteNote(selectedNote, new Callback<Void>() {
                     @Override
                     public void onSuccess(Void data) {
                         new AlertDialog.Builder(requireContext())
