@@ -7,6 +7,7 @@ import android.os.Looper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -68,7 +69,7 @@ public class InMemoryNotesRepository implements NotesRepository {
 //                    e.printStackTrace();
 //                }
 
-        Note note = new Note(title, details, new Date());
+        Note note = new Note(UUID.randomUUID().toString(), title, details, new Date());
 
         data.add(note);
 
@@ -117,7 +118,7 @@ public class InMemoryNotesRepository implements NotesRepository {
 //                    e.printStackTrace();
 //                }
 
-        Note newNote = new Note(title, details, note.getCreatedDate());
+        Note newNote = new Note(UUID.randomUUID().toString(), title, details, note.getCreatedDate());
 
         int index = data.indexOf(note);
 

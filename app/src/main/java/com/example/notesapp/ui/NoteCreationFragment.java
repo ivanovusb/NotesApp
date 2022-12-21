@@ -12,6 +12,7 @@ import com.example.notesapp.R;
 import com.example.notesapp.domain.Callback;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
+import com.example.notesapp.domain.SharedPrefNotesRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -47,7 +48,7 @@ public class NoteCreationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fabCreate.setEnabled(false);
-                InMemoryNotesRepository.getInstance(requireContext()).addNote(editTextLabel.getText().toString(), editTextDetails.getText().toString(), new Callback<Note>() {
+                SharedPrefNotesRepository.getInstance(requireContext()).addNote(editTextLabel.getText().toString(), editTextDetails.getText().toString(), new Callback<Note>() {
                     @Override
                     public void onSuccess(Note data) {
 

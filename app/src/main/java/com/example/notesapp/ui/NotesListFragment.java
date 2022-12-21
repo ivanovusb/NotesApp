@@ -28,6 +28,7 @@ import com.example.notesapp.R;
 import com.example.notesapp.domain.Callback;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
+import com.example.notesapp.domain.SharedPrefNotesRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -165,7 +166,7 @@ public class NotesListFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.progress_load_notes);
         progressBar.setVisibility(View.VISIBLE);
 
-        InMemoryNotesRepository.getInstance(requireContext()).getAll(new Callback<List<Note>>() {
+        SharedPrefNotesRepository.getInstance(requireContext()).getAll(new Callback<List<Note>>() {
             @Override
             public void onSuccess(List<Note> data) {
                 adapter.setData(data);
@@ -202,7 +203,7 @@ public class NotesListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_delete_note_context:
 
-                InMemoryNotesRepository.getInstance(requireContext()).deleteNote(selectedNote, new Callback<Void>() {
+                SharedPrefNotesRepository.getInstance(requireContext()).deleteNote(selectedNote, new Callback<Void>() {
                     @Override
                     public void onSuccess(Void data) {
                         new AlertDialog.Builder(requireContext())

@@ -28,6 +28,7 @@ import com.example.notesapp.R;
 import com.example.notesapp.domain.Callback;
 import com.example.notesapp.domain.InMemoryNotesRepository;
 import com.example.notesapp.domain.Note;
+import com.example.notesapp.domain.SharedPrefNotesRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class NoteDetailsFragment extends Fragment {
@@ -92,7 +93,7 @@ public class NoteDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fabEdit.setEnabled(false);
-                InMemoryNotesRepository.getInstance(requireContext()).updateNote(noteToEdit, title.getText().toString(), details.getText().toString(), new Callback<Note>() {
+                SharedPrefNotesRepository.getInstance(requireContext()).updateNote(noteToEdit, title.getText().toString(), details.getText().toString(), new Callback<Note>() {
                     @Override
                     public void onSuccess(Note data) {
 
