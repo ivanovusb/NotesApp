@@ -8,16 +8,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.notesapp.R;
 import com.example.notesapp.testnotification.CustomViewDialogFragment;
 import com.example.notesapp.testnotification.NotificationsFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportFragmentManager()
+                .setFragmentResultListener(AuthFragment.KEY_RESULT_AUTHORIZED, this, new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        showNotes();
+                    }
+                });
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -76,16 +89,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         if (savedInstanceState != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new NotesListFragment())
-                    .commit();
+//            if (isAuthorized()) {
+                showNotes();
+//            } else {
+//                showAuth();
+//            }
         } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, new StartScreenFragment())
-                    .commit();
+            showStartScreen();
 
             Thread thread = new Thread(() -> {
                 try {
@@ -93,14 +105,40 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, new NotesListFragment())
-                            .commit();
+//                    if (isAuthorized()) {
+                        showNotes();
+//                    } else {
+//                        showAuth();
+//                    }
                 }
             });
             thread.start();
         }
+    }
+
+    private void showStartScreen() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, new StartScreenFragment())
+                .commit();
+    }
+
+    private void showNotes() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new NotesListFragment())
+                .commit();
+    }
+
+    private boolean isAuthorized() {
+        return GoogleSignIn.getLastSignedInAccount(this) != null;
+    }
+
+    private void showAuth() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new AuthFragment())
+                .commit();
     }
 
 

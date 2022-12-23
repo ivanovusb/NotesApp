@@ -218,6 +218,7 @@ public class NotesListFragment extends Fragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         adapter.removeNote(selectedNote);
                                         adapter.notifyItemRemoved(selectedPosition);
+                                        Snackbar.make(requireView(), R.string.note_delete_snackbar, Snackbar.LENGTH_SHORT).show();
                                     }
                                 })
                                 .setNegativeButton(R.string.negative_answer, new DialogInterface.OnClickListener() {
@@ -226,7 +227,6 @@ public class NotesListFragment extends Fragment {
                                     }
                                 })
                                 .show();
-                        Snackbar.make(requireView(), R.string.note_delete_snackbar, Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
