@@ -46,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        getSupportFragmentManager()
+                .setFragmentResultListener(AuthFragment.KEY_RESULT_NON_AUTHORIZED, this, new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        showNotes();
+                    }
+                });
+
         NavigationView navigationView = findViewById(R.id.navigation_view);
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
 
@@ -91,11 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (savedInstanceState != null) {
-//            if (isAuthorized()) {
+            if (isAuthorized()) {
                 showNotes();
-//            } else {
-//                showAuth();
-//            }
+            } else {
+                showAuth();
+            }
         } else {
             showStartScreen();
 
@@ -105,11 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-//                    if (isAuthorized()) {
+                    if (isAuthorized()) {
                         showNotes();
-//                    } else {
-//                        showAuth();
-//                    }
+                    } else {
+                        showAuth();
+                    }
                 }
             });
             thread.start();

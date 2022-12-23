@@ -9,4 +9,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
+    <Button
+        android:id="@+id/non_auth_button"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKIP AUTH"
+        android:textSize="15dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="20dp"/>
+
 </FrameLayout>
